@@ -174,7 +174,7 @@ else:
     for name, colorset in combinations.items():
         if all(c in score for c in colorset):
             values = [score[c] for c in colorset]
-            if max(values) - min(values) <= 2 and max(values) >= 3:
+            if max(values) - min(values) <= 2 and sum(1 for v in values if v >= 3) >= 2:
                 st.markdown(f"✅ **{name}**")
 
     if st.button("Neu starten"):
