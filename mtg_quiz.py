@@ -150,7 +150,7 @@ if st.session_state.step < len(questions):
             st.session_state.answers.append(q["options"][st.session_state.selected][1])
             st.session_state.step += 1
             st.session_state.selected = None
-            st.experimental_rerun()
+            st.rerun()
 else:
     score = {"W": 0, "U": 0, "B": 0, "R": 0, "G": 0}
     for answer in st.session_state.answers:
@@ -181,4 +181,4 @@ else:
         st.session_state.answers = []
         st.session_state.step = 0
         st.session_state.selected = None
-        st.experimental_rerun()
+        st.rerun()
