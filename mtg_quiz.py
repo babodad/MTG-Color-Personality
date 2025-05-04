@@ -53,6 +53,56 @@ questions = [
             ("Freiheit", ["R"]),
             ("Harmonie", ["G"])
         ]
+    },
+    {
+        "text": "Was motiviert dich im Spiel am meisten?",
+        "options": [
+            ("Synergien perfekt ausnutzen", ["U", "G"]),
+            ("Schneller Sieg durch Aggression", ["R", "W"]),
+            ("Wissen, Kontrolle & Manipulation", ["U", "B"]),
+            ("Gleichgewicht & Schutz der Gruppe", ["W", "G"]),
+            ("Ressourcen zerstören & Druck erzeugen", ["B", "R"])
+        ]
+    },
+    {
+        "text": "Was ist deine größte spielerische Stärke?",
+        "options": [
+            ("Ich denke strategisch & langfristig", ["U"]),
+            ("Ich kann gut anpassen & improvisieren", ["R", "G"]),
+            ("Ich kontrolliere Ressourcen & Optionen", ["B", "U"]),
+            ("Ich baue starke Synergien auf", ["G", "W"]),
+            ("Ich bringe das Spiel in eine stabile Ordnung", ["W"])
+        ]
+    },
+    {
+        "text": "Welche dieser Aussagen beschreibt dich am besten?",
+        "options": [
+            ("Ich schätze Ordnung, Wissen und Kontrolle über mich selbst.", ["W", "U", "B"]),
+            ("Ich bin zäh, impulsiv und lasse mich nicht leicht aufhalten.", ["B", "R", "G"]),
+            ("Ich handle klug, natürlich und mit Kraft, wenn es nötig ist.", ["U", "R", "G"]),
+            ("Ich bin belastbar, fürsorglich und überlebe jedes Tief.", ["W", "B", "G"]),
+            ("Ich bin kreativ, diszipliniert und intuitiv zugleich.", ["W", "U", "R"])
+        ]
+    },
+    {
+        "text": "Welcher dieser Spielzüge befriedigt dich am meisten?",
+        "options": [
+            ("Ein sorgfältig vorbereiteter Plan geht auf", ["U"]),
+            ("Ein mutiger Angriff entscheidet das Spiel", ["R"]),
+            ("Ein geschickter Bluff bringt dir den Sieg", ["B"]),
+            ("Eine ausgeklügelte Engine entfaltet sich", ["G", "U"]),
+            ("Deine Armee überwältigt den Gegner durch Ordnung", ["W"])
+        ]
+    },
+    {
+        "text": "Wenn du die Wahl hättest, würdest du lieber...",
+        "options": [
+            ("...alle anderen schützen.", ["W"]),
+            ("...das Spiel kontrollieren.", ["U"]),
+            ("...den Sieg erzwingen.", ["R"]),
+            ("...aus dem Tod zurückkehren.", ["B"]),
+            ("...mit allem verbunden sein.", ["G"])
+        ]
     }
 ]
 
@@ -91,7 +141,7 @@ if st.session_state.step < len(questions):
         if st.button(text, key=f"btn-{st.session_state.step}-{i}"):
             st.session_state.answers.append(colors)
             st.session_state.step += 1
-            st.experimental_rerun()
+            st.stop()
 else:
     score = {"W": 0, "U": 0, "B": 0, "R": 0, "G": 0}
     for answer in st.session_state.answers:
@@ -120,4 +170,4 @@ else:
     if st.button("Neu starten"):
         st.session_state.answers = []
         st.session_state.step = 0
-        st.experimental_rerun()
+        st.stop()
