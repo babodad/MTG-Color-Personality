@@ -1,3 +1,4 @@
+
 import streamlit as st
 
 st.set_page_config(page_title="MTG Persönlichkeits-Test", layout="centered")
@@ -129,19 +130,27 @@ combinations = {
 
 if "answers" not in st.session_state:
     st.session_state.answers = []
-
 if "step" not in st.session_state:
     st.session_state.step = 0
+if "selected" not in st.session_state:
+    st.session_state.selected = None
 
 if st.session_state.step < len(questions):
     q = questions[st.session_state.step]
     st.subheader(f"Frage {st.session_state.step + 1} von {len(questions)}")
     st.write(q["text"])
-    for i, (text, colors) in enumerate(q["options"]):
+
+    for i, (text, _) in enumerate(q["options"]):
         if st.button(text, key=f"btn-{st.session_state.step}-{i}"):
-            st.session_state.answers.append(colors)
+            st.session_state.selected = i
+
+    if st.session_state.selected is not None:
+        st.markdown(f"👉 **Ausgewählt:** {q['options'][st.session_state.selected][0]}")
+        if st.button("Weiter", key="next"):
+            st.session_state.answers.append(q["options"][st.session_state.selected][1])
             st.session_state.step += 1
-            st.stop()
+            st.session_state.selected = None
+            st.experimental_rerun()
 else:
     score = {"W": 0, "U": 0, "B": 0, "R": 0, "G": 0}
     for answer in st.session_state.answers:
@@ -163,11 +172,13 @@ else:
     st.markdown("---")
     st.subheader("🎯 Vorschläge für Farbkombinationen")
     for name, colorset in combinations.items():
-        diffs = [abs(score[c] - max_score) for c in colorset]
-        if max(diffs) <= 2:
-            st.markdown(f"✅ **{name}**")
+        if all(c in score for c in colorset):
+            values = [score[c] for c in colorset]
+            if max(values) - min(values) <= 2 and max(values) >= 3:
+                st.markdown(f"✅ **{name}**")
 
     if st.button("Neu starten"):
         st.session_state.answers = []
         st.session_state.step = 0
-        st.stop()
+        st.session_state.selected = None
+        st.experimental_rerun()
